@@ -1,0 +1,24 @@
+{
+  "name": "tonetime-croptool",
+  "version": "1.0.0",
+  "description": "Webcomponent for cropping and saving images",
+  "main": "tonetime-croptool.js",
+  "dependencies": {
+    "browser-sync": "^2.18.13",
+    "gulp-inject": "^4.3.0",
+    "gulp-uglify-es": "^1.0.4",
+    "gulp-watch": "^5.0",
+    "uglify-es": "^3.3.9"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^3.0.0",
+    "gulp-util": "^3.0.8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "TT",
+  "license": "MIT"
+}

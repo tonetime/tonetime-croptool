@@ -1,0 +1,79 @@
+<html lang="eng">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js"></script>
+    <script src="drag-resize.js"></script>
+    <script src="filters.js"></script>
+    <script src="tonetime-croptool.js"></script>
+    <script src="pinch-detect.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+
+    </style>
+  </head>
+  <body>
+        hi<br><br>
+         <crop-component id='pan' background-image='true' cropbox-height='80%' cropbox-width='90%' range="true" src='images/cat.jpg' style='display:inline-block;width:400px;height:400px; max-width:100%; background-color: #383030'></crop-component>        
+        <br> 
+        <br><br>
+        <a href='#' onclick='foo()'>Insert Another Image</a>
+        <a href='#' onclick='cropImage()'>Show Cropped Image</a>
+
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <a  id='download' href="" download="cropped">
+              Download
+            </a>
+            <img id='cropped' src='' width=500>
+            <p id='dimensions'></p>
+          </div>
+        </div>
+        <script>
+          window.onclick = function(event) {
+              if (event.target == modal) {
+                  modal.style.display = "none";
+              }
+          }
+          var span = document.getElementsByClassName("close")[0];
+          span.onclick = function() {
+              modal.style.display = "none";
+          }
+          function foo() {
+            var f = document.getElementById('pan')
+            f.insertImage('images/eiffel.jpg')
+          }
+          function cropImage() {
+            var modal = document.getElementById('modal');
+            var f = document.getElementById('pan')
+            var c = document.getElementById('cropped')
+            var cd = pan.croppedDimensions()
+            modal.style.display = "block";
+            var data = f.drawCroppedImage()
+            c.src = data
+
+            document.getElementById("download").href=data;
+            var size = parseFloat(data.length / 1024).toFixed(0) + 'kb'            
+            var str = `x:${cd.dx} y:${cd.dy} width:${cd.dWidth} height:${cd.dHeight} size:${size}`
+            document.getElementById('dimensions').innerHTML=str
+          }
+
+          document.addEventListener("DOMContentLoaded", function(event) {
+            p = document.getElementById('pan')
+           // p.cropImage()
+          // canvas = document.getElementById('foo')
+          // context = canvas.getContext('2d');
+          i = new Image()
+          i.onload=function() {
+           // p.positionBackgroundImage()
+          }
+          //   context.drawImage(i, 0, 0);
+          // }
+        //  i.src = 'examples/cat.jpg'
+        })
+        </script>
+  </body>
+</html>
+
+
