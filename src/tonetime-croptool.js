@@ -1,4 +1,4 @@
-class CropComponent extends HTMLElement {
+class TonetimeCroptool extends HTMLElement {
   constructor() {
     super();
   }
@@ -381,4 +381,4 @@ class CropComponent extends HTMLElement {
     return a && a.toLowerCase()!='false'
   }
 }
-window.customElements.define('crop-component', CropComponent);
+window.customElements.define('tonetime-croptool', TonetimeCroptool);
