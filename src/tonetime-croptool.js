@@ -31,8 +31,24 @@ class TonetimeCroptool extends HTMLElement {
     this.updateTransform()
     this.range.parentElement.style.display='none'
   }
+
+  get template22() {
+    return `
+    <style>
+    :host { 
+      display: inline-block; 
+    }
+    </style>
+            <img  id ='crop-component-img' src='${this.src}'  ondragstart="return false" style='z-index:1;position:relative; transform:scale(1) translate(0px, 0px);'>
+    
+    `
+
+  }
   get template() {
     return `
+    <style>
+    :host { display: inline-block; }
+    </style>
 		  <div id ='crop-component-container' style='overflow:hidden;width:100%;height:100%;cursor: move; z-index:10; position:relative; ' >
     		<img  id ='crop-component-img' src='${this.src}'  ondragstart="return false" style='z-index:1;position:relative; transform:scale(1) translate(0px, 0px);'>
       </div>
@@ -50,10 +66,21 @@ class TonetimeCroptool extends HTMLElement {
     shadowRoot.innerHTML = this.template;  
     this.insertImage(this.src)
   }
-  insertImage(src) {
+  insertImage(src) {    
+    this.style.display='inline-block'    
     this.setAttribute('src',src)
     this.clear()
-    this.shadowRoot.getElementById('crop-component-img').onload=function() {      
+    this.shadowRoot.getElementById('crop-component-img').onload=function() {  
+        
+      var i  = this.shadowRoot.getElementById('crop-component-img')   
+      this.style.display-'inline-block  '  
+       if (this.style.height==null || this.style.height=="") {
+         this.style.height=i.height + 'px'
+       }
+       if (this.style.width==null || this.style.width=="") {
+         this.style.width=i.width + 'px'
+       }
+      console.log(this.style.width + ' and ' + this.style.height);
         this.initAfterDOM()
         this.shadowDOMRenderedCallback()
         this.imageLoadedCallback()
@@ -258,7 +285,7 @@ class TonetimeCroptool extends HTMLElement {
     	this.updateScale(scale)
     }.bind(this)	
   }
-  imageLoadedCallback() {
+  imageLoadedCallback() {    
 	 this.currentScale=this.minimumScale()
 	 this.setTransformationOrigin()  
 	 this.positionImage()
