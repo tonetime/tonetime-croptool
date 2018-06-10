@@ -7,8 +7,8 @@ class TonetimeCroptool extends HTMLElement {
     this.currentScale=1.0,this.maxScale=2.0
     this.currentTx=0,this.currentTy=0
     this.supportsTouch =(('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0))
-    this.range=null;
-    this.defaultRangeSupport=false
+    this.zoomSlider=null;
+    this.defaultZoomSliderSupport=false
     this.cropboxHeight=0,this.cropboxWidth=0
     this.resizable=false   
     this.maxScale = parseFloat(this.getAttribute('maxscale')) || 5.0
@@ -29,22 +29,27 @@ class TonetimeCroptool extends HTMLElement {
     this.setBackgroundImage()
     this.coverFitImage()
     this.updateTransform()
-    this.range.parentElement.style.display='none'
+    this.zoomSlider.parentElement.style.display='none'
   }
 
-  get template22() {
-    return `
-    <style>
-    :host { 
-      display: inline-block; 
-    }
-    </style>
-            <img  id ='crop-component-img' src='${this.src}'  ondragstart="return false" style='z-index:1;position:relative; transform:scale(1) translate(0px, 0px);'>
-    
-    `
-
-  }
   get template() {
+
+
+    return `
+          <div id ='crop-component-container' style='overflow:hidden;cursor: move; z-index:10; position:relative; ' >
+            <img  id ='crop-component-img' src='${this.src}'  ondragstart="return false" style='z-index:1;position:relative; transform:scale(1) translate(0px, 0px);'>
+          </div>
+            <div  ondragstart="return false"  style='z-index:0; position:absolute; overflow:hidden;display:none '>
+                <img src='' id='crop-component-bg-image'  style='transform:scale(1) translate(0px, 0px);'>
+            </div>
+            <canvas id="crop-component-canvas" style='display:none'></canvas>
+            <div id='tcrop-div'  style='display:none;background-color: lightgray; margin-top:5px; opacity:0.8; z-index:100; text-align:center; position: absolute;  border-radius: 2px;'>
+                <input id = 'crop-component-range' type="range" min=1 max=4  step=0.1  value="1" style='margin-top:5px;width:75%' />
+            </div>
+          `
+
+  }
+  get template2() {
     return `
     <style>
     :host { display: inline-block; }
@@ -71,30 +76,44 @@ class TonetimeCroptool extends HTMLElement {
     this.setAttribute('src',src)
     this.clear()
     this.shadowRoot.getElementById('crop-component-img').onload=function() {  
-        
-      var i  = this.shadowRoot.getElementById('crop-component-img')   
-      this.style.display-'inline-block  '  
-       if (this.style.height==null || this.style.height=="") {
-         this.style.height=i.height + 'px'
-       }
-       if (this.style.width==null || this.style.width=="") {
-         this.style.width=i.width + 'px'
-       }
-      console.log(this.style.width + ' and ' + this.style.height);
-        this.initAfterDOM()
-        this.shadowDOMRenderedCallback()
-        this.imageLoadedCallback()
-      }.bind(this)
+      var a = getComputedStyle(this)
+      var container = this.shadowRoot.getElementById('crop-component-container')
+      //container.style.width = container.firstElementChild.width + 'px'
+      //container.style.height = container.firstElementChild.height+'px'
+      container.style.width = a.width
+      container.style.height = a.height
+
+      //debugger
+      //1
+      // var i  = this.shadowRoot.getElementById('crop-component-container')  
+      // i.width = a.width
+      // i.height = a.height
+      // console.log(i.width + ' ' + i.height);
+
+      //this.style.display-'inline-block  '  
+      // debugger
+      //  if (this.style.height==null || this.style.height=="") {
+      //  // this.offsetHeight=i.height
+      //    this.style.height=i.height + 'px'
+      //  }
+      //  if (this.style.width==null || this.style.width=="") {
+      //   //this.offsetWidth=i.width
+      //    this.style.width=i.width + 'px'
+      //  }
+      this.initAfterDOM()
+      this.shadowDOMRenderedCallback()
+      this.imageLoadedCallback()
+    }.bind(this)
     this.shadowRoot.getElementById('crop-component-img').src=this.src
   }
-  setRangeSlider() {
+  setZoomSlider() {
   	var r = this.getAttribute('range') 
   	if (r && r.toLowerCase()==='true' && (!this.supportsTouch)) {  		
   		this.displayDefaultSlider()
-  		this.defaultRangeSupport=true
+  		this.defaultZoomSliderSupport=true
   	}
   	else if (r!=null) {
-  		this.range = document.getElementById(r)  		
+  		this.zoomSlider = document.getElementById(r)  		
   	}
   }
   setBackgroundImage() { 
@@ -155,8 +174,8 @@ class TonetimeCroptool extends HTMLElement {
       this.setupCropBox()
       this.setBackgroundImage()
     }
-    this.setRangeSlider()
-    if (this.range && (!this.supportsTouch)) this.setupSlider()
+    this.setZoomSlider()
+    if (this.zoomSlider && (!this.supportsTouch)) this.setupSlider()
   }
   moves(state,e,data) {
 
@@ -165,8 +184,8 @@ class TonetimeCroptool extends HTMLElement {
       return;
     }
     if (state=='mousePressedInContainer') {
-     if (this.defaultRangeSupport) {
-      this.positionBelowImage(this.range.parentElement)
+     if (this.defaultZoomSliderSupport) {
+      this.positionBelowImage(this.zoomSlider.parentElement)
      }
     }
     else if (state=='panningInContainer') {
@@ -182,8 +201,8 @@ class TonetimeCroptool extends HTMLElement {
       this.updateScale(adjscale)
     }
     else if (state=='mousePressedOutsideContainer') {
-      if (e.target != this && this.range)
-        this.range.parentElement.style.display='none'
+      if (e.target != this && this.zoomSlider)
+        this.zoomSlider.parentElement.style.display='none'
     }
     else if (state=='reszieContainer') {
       var outerContainer=this.absoluteRect(this)
@@ -272,16 +291,16 @@ class TonetimeCroptool extends HTMLElement {
     }
   }
   displayDefaultSlider() {
-  	this.range = this.shadowRoot.getElementById('crop-component-range')
+  	this.zoomSlider = this.shadowRoot.getElementById('crop-component-range')
   	this.setupSlider()
   }
   setupSlider() {
-  	this.range.min= parseFloat(this.minimumScale()).toFixed(2)
-  	this.range.max = this.maxScale
-  	this.range.step = 0.1
-  	this.range.value = this.currentScale
-  	this.range.oninput=function(e) {
-	   	var scale=parseFloat(this.range.value)
+  	this.zoomSlider.min= parseFloat(this.minimumScale()).toFixed(2)
+  	this.zoomSlider.max = this.maxScale
+  	this.zoomSlider.step = 0.1
+  	this.zoomSlider.value = this.currentScale
+  	this.zoomSlider.oninput=function(e) {
+	   	var scale=parseFloat(this.zoomSlider.value)
     	this.updateScale(scale)
     }.bind(this)	
   }
@@ -327,14 +346,14 @@ class TonetimeCroptool extends HTMLElement {
 	  this.updateTransform()  
   }
   updateScale(scale) {
-    //console.log('currentscale:' + this.currentScale + ' min:' + this.minimumScale() + ' range:' + this.range + ' max:' + this.maxScale);
+    //console.log('currentscale:' + this.currentScale + ' min:' + this.minimumScale() + ' range:' + this.zoomSlider + ' max:' + this.maxScale);
   	this.currentScale=scale
    	if (this.currentScale <= 0) this.currentScale=1   
     //console.log('go  here?' + this.currentScale);
 
     if (this.currentScale > this.maxScale) this.currentScale=this.maxScale
     this.currentScale = this.currentScale < this.minimumScale() ? this.minimumScale() : this.currentScale
-	  if (this.range) this.range.value = this.currentScale
+	  if (this.zoomSlider) this.zoomSlider.value = this.currentScale
     this.coverFitImage()
     this.updateTransform()
   }
