@@ -173,9 +173,10 @@ class TonetimeCroptool extends HTMLElement {
 
       if (data.currentDirection=='EW' || data.currentDirection=='NE' || data.currentDirection=='SE') {
        var movement=e.movementX
-       if (movement < 0 &&  e.srcElement.id != 'pan') {
+       if (movement < 0 &&  e.srcElement != this) {
           movement=0
        }
+
         var newWidth = parseFloat(this.container.style.width) + movement        
         var newBounds = this.boundsR(innerContainer.bottom,innerContainer.top, (this.container.offsetLeft + newWidth),innerContainer.left)       
         if ( (innerContainer.left + newWidth) < outerContainer.right && newWidth > 5  && this.currentTx >= bounds.right ) {
@@ -189,7 +190,7 @@ class TonetimeCroptool extends HTMLElement {
       }
       if (data.currentDirection=='WE' || data.currentDirection=='NW' || data.currentDirection=='SW') {
         var movement=e.movementX        
-        if (movement > 0 && e.srcElement.id != 'pan') {
+        if (movement > 0 && e.srcElement != this) {
 
           movement=0          
         }
@@ -209,7 +210,7 @@ class TonetimeCroptool extends HTMLElement {
       }
       if (data.currentDirection=='NS' || data.currentDirection=='NW' || data.currentDirection=='NE') {
         var movement=e.movementY
-        if (movement > 0 && e.srcElement.id != 'pan') {
+        if (movement > 0 && e.srcElement != this) {
           movement=0
         }
         var newHeight = parseFloat(this.container.style.height) - movement
@@ -228,7 +229,7 @@ class TonetimeCroptool extends HTMLElement {
       }
       if (data.currentDirection=='SN'  || data.currentDirection=='SE'   || data.currentDirection=='SW'  ) {       
         var movement = e.movementY
-        if (movement < 0 && e.srcElement.id != 'pan') {
+        if (movement < 0 && e.srcElement != this) {
           movement=0
         }
         var newHeight = parseFloat(this.container.style.height) + movement
@@ -343,7 +344,9 @@ class TonetimeCroptool extends HTMLElement {
   	}
   }
   absoluteRect(elem) {
-  	return {top:elem.offsetTop, bottom: elem.offsetHeight + elem.offsetTop, right:elem.offsetLeft+elem.offsetWidth,left:elem.offsetLeft}
+    var rect = elem.getBoundingClientRect()
+    return {top:rect.top, bottom:rect.bottom, right:rect.right,left:rect.left}
+//  	return {top:elem.offsetTop, bottom: elem.offsetHeight + elem.offsetTop, right:elem.offsetLeft+elem.offsetWidth,left:elem.offsetLeft}
   }
   bounds() {
     var containerRect = this.absoluteRect(this.container)
