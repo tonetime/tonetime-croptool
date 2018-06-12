@@ -11,6 +11,7 @@ class TonetimeCroptool extends HTMLElement {
     this.defaultZoomSliderSupport=false
     this.cropboxHeight=0,this.cropboxWidth=0
     this.resizable=false   
+    this.useBgImage=false
     this.maxScale = parseFloat(this.getAttribute('maxscale')) || 5.0
     this.isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
   }
@@ -49,23 +50,6 @@ class TonetimeCroptool extends HTMLElement {
           `
 
   }
-  get template2() {
-    return `
-    <style>
-    :host { display: inline-block; }
-    </style>
-		  <div id ='crop-component-container' style='overflow:hidden;width:100%;height:100%;cursor: move; z-index:10; position:relative; ' >
-    		<img  id ='crop-component-img' src='${this.src}'  ondragstart="return false" style='z-index:1;position:relative; transform:scale(1) translate(0px, 0px);'>
-      </div>
-      <div  ondragstart="return false"  style='z-index:0; position:absolute; overflow:hidden;display:none '>
-        	<img src='' id='crop-component-bg-image'  style='transform:scale(1) translate(0px, 0px);'>
-      </div>
-      <canvas id="crop-component-canvas" style='display:none'></canvas>
-    	<div id='tcrop-div'  style='display:none;background-color: lightgray; margin-top:5px; opacity:0.8; z-index:100; text-align:center; position: absolute;  border-radius: 2px;'>
-       		<input id = 'crop-component-range' type="range" min=1 max=4  step=0.1  value="1" style='margin-top:5px;width:75%' />
-      </div>
-    `
-  }
   connectedCallback() {  	
     let shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.innerHTML = this.template;  
@@ -78,28 +62,8 @@ class TonetimeCroptool extends HTMLElement {
     this.shadowRoot.getElementById('crop-component-img').onload=function() {  
       var a = getComputedStyle(this)
       var container = this.shadowRoot.getElementById('crop-component-container')
-      //container.style.width = container.firstElementChild.width + 'px'
-      //container.style.height = container.firstElementChild.height+'px'
       container.style.width = a.width
       container.style.height = a.height
-
-      //debugger
-      //1
-      // var i  = this.shadowRoot.getElementById('crop-component-container')  
-      // i.width = a.width
-      // i.height = a.height
-      // console.log(i.width + ' ' + i.height);
-
-      //this.style.display-'inline-block  '  
-      // debugger
-      //  if (this.style.height==null || this.style.height=="") {
-      //  // this.offsetHeight=i.height
-      //    this.style.height=i.height + 'px'
-      //  }
-      //  if (this.style.width==null || this.style.width=="") {
-      //   //this.offsetWidth=i.width
-      //    this.style.width=i.width + 'px'
-      //  }
       this.initAfterDOM()
       this.shadowDOMRenderedCallback()
       this.imageLoadedCallback()
@@ -146,11 +110,10 @@ class TonetimeCroptool extends HTMLElement {
   	element.style.left=left+'px'  
   }
   setupCropBox() {
-    if (!this.useBgImage)
-      return
   	var ch = this.getAttribute('cropbox-height')
   	var cw = this.getAttribute('cropbox-width')
   	if (ch == null && cw ==null) return
+    this.useBgImage=true
     if (ch.indexOf('%') > 0)  ch = this.offsetHeight * (parseFloat(ch)/100) 
     if (cw.indexOf('%') > 0)  cw = this.offsetWidth * (parseFloat(cw)/100) 
 
@@ -170,10 +133,8 @@ class TonetimeCroptool extends HTMLElement {
     if (!this.dragAndResize)
       this.dragAndResize=new DragAndResizable(this.container,this,true,this.moves.bind(this))
     this.img = this.shadowRoot.getElementById('crop-component-img')
-    if (this.useBgImage) {
-      this.setupCropBox()
-      this.setBackgroundImage()
-    }
+    this.setupCropBox()
+    this.setBackgroundImage()
     this.setZoomSlider()
     if (this.zoomSlider && (!this.supportsTouch)) this.setupSlider()
   }
@@ -422,9 +383,9 @@ class TonetimeCroptool extends HTMLElement {
   get src() {
   	return this.getAttribute('src') 
   }
-  get useBgImage() {    
-    var a = this.getAttribute('background-image')
-    return a && a.toLowerCase()!='false'
-  }
+  // get useBgImage() {    
+  //   var a = this.getAttribute('background-image')
+  //   return a && a.toLowerCase()!='false'
+  // }
 }
 window.customElements.define('tonetime-croptool', TonetimeCroptool);

@@ -227,6 +227,7 @@ class DragAndResizable {
       // this.resizing=false 
     }
     absoluteRect(elem) {
-      return {top:elem.offsetTop, bottom: elem.offsetHeight + elem.offsetTop, right:elem.offsetLeft+elem.offsetWidth,left:elem.offsetLeft}
+      var rect = elem.getBoundingClientRect()
+      return {top:rect.top, bottom:rect.bottom, right:rect.right,left:rect.left}
     }
 }

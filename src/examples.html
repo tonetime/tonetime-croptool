@@ -7,7 +7,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Examples for tonetime-croptool</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js"></script>
     <script src="drag-resize.js"></script>
     <script src="filters.js"></script>
@@ -23,18 +23,68 @@
 
 
   <body>
-    <h1>Tonetime Croptool.</h1>
+    <h1>&lt;tonetime-croptool&gt;</h1>
 
     <div class="container">
       <div class="row">
         <div class="col">
-          <tonetime-croptool  class='half' range="true" src='images/cat.jpg'></tonetime-croptool>
+          <h4>Web component for croping an image. </h4>
+          <ul class="fa-ul">
+            <li><i class="fa-li fa fa-check-square"></i>No dependencies (Polyfill is needed for browsers w/o webcomponent support) </li>
+            <li><i class="fa-li fa fa-check-square"></i>Works on both mobile and web browsers.</li>
+            <li><i class="fa-li fa fa-spinner fa-spin"></i>5k gzipped.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>Installation: </h4>
+            <code>
+              &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js&quot;&gt;&lt;/script&gt; &lt;!-- polyfill for unsupported browsers --&gt;
+              <br>
+              &lt;script src=&quot;dist/tonetime-croptool.js&quot;&gt;&lt;/script&gt;            
+            </code>
+            <p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>Attributes: </h4>
+          <li><i class="fa-li fa fa-check-square"></i>src: [image source] </li>
+          <li><i class="fa-li fa fa-check-square"></i>range: [true | false]  Show a range slider to zoom in and out. Will never show on mobile devices.</li>
+          <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-width,cropbox-height: [pct] Cropbox provides a background with a rectangluar box to crop the image.  </li>
+          <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-fixed: [true | false]  Do not allow the user to change the height/width of the cropbox. </li>
+        </div>
+      </div>
+      <p>
+
+    </div>
+
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+
+       <tonetime-croptool  style='width:350px;height:350px;' cropbox-height='80%' cropbox-width='90%' range="true" src='images/cat.jpg' ></tonetime-croptool>   
 
         </div>
       </div>
       <div class="row">
         <div class="col">
+          Example 1: <p>
         <code>  &lt;tonetime-croptool range=&quot;true&quot; src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;   </code>
+        <p>
+          <a class="btn btn-primary" href="#" role="button">Save Image</a> <a class="btn btn-primary" href="#" role="button">Change Image</a>
+
+
         </div>
       </div>
     </div>
