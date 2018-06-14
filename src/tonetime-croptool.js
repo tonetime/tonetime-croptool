@@ -11,6 +11,7 @@ class TonetimeCroptool extends HTMLElement {
     this.defaultZoomSliderSupport=false
     this.cropboxHeight=0,this.cropboxWidth=0
     this.useBgImage=false
+    this.startingScale = parseFloat(this.getAttribute('starting-scale'))
     this.maxScale = parseFloat(this.getAttribute('maxscale')) || 5.0
     this.isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     this.isLoaded=false
@@ -277,10 +278,16 @@ class TonetimeCroptool extends HTMLElement {
     }.bind(this)	
   }
   imageLoadedCallback() {    
-	 this.currentScale=this.minimumScale()
-	 this.setTransformationOrigin()  
-	 this.positionImage()
-	 this.updateScale(this.currentScale)
+	// this.currentScale=this.minimumScale()
+    if (this.startingScale)  {
+      this.currentScale=this.startingScale
+    }
+    else {
+      this.currentScale=this.minimumScale()
+    }
+    this.setTransformationOrigin()  
+    this.positionImage()
+    this.updateScale(this.currentScale)
   }
   disconnectedCallback() {
     if (this.dragAndResize) this.dragAndResize.disconnectEvents()

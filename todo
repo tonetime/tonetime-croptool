@@ -1,4 +1,4 @@
-+ Translate is screwing up on resize.
++ Translate is screwing up on resize. DONE
 
 
 <div id="crop-component-container" style="overflow: hidden; cursor: move; z-index: 10; position: relative; width: 315px; height: 280px; outline: white solid 1px; top: 35px; left: 17.5px;">
