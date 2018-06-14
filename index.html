@@ -9,10 +9,7 @@
 
     <title>Examples for tonetime-croptool</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js"></script>
-    <script src="drag-resize.js"></script>
-    <script src="filters.js"></script>
-    <script src="tonetime-croptool.js"></script>
-    <script src="pinch-detect.js"></script>
+    <script src="dist/tonetime-croptool.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -90,7 +87,7 @@
       <div class="row">
         <div class="col">
 
-        <tonetime-croptool  id='ex1'  style='width:350px;height:350px' cropbox-height='80%' cropbox-width='90%' range="true" src='images/cat.jpg' ></tonetime-croptool>   
+        <tonetime-croptool  id='ex1'  style='width:350px;height:350px' cropbox-height='80%' cropbox-width='90%' range="true" src='http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg' ></tonetime-croptool>   
        </div>
       </div>
       <div class="row" style='margin-top:30px'>
@@ -115,7 +112,7 @@
         <div class="row">
           <div class="col">
 
-          <tonetime-croptool  id='ex2'  starting-scale='1.1' style='-webkit-clip-path: ellipse(35% 40% at 50% 50%); clip-path: ellipse(35% 40% at 50% 40%); width:400px;height:350px' range="true" src='images/archer.jpg' ></tonetime-croptool>   
+          <tonetime-croptool  id='ex2'  starting-scale='1.1' style='-webkit-clip-path: ellipse(35% 40% at 50% 50%); clip-path: ellipse(35% 40% at 50% 40%); width:400px;height:350px' range="true" src='http://res.cloudinary.com/dss0tbrcx/image/upload/v1529020006/archer_xcs1k8.jpg' ></tonetime-croptool>   
          </div>
         </div>
 
@@ -173,7 +170,7 @@
         }
         function updateSrc(id) {
           var t = document.getElementById(id)
-          var src = t.getAttribute('src')=='images/cat.jpg' ? 'images/eiffel.jpg' : 'images/cat.jpg'
+          var src = t.getAttribute('src')=='http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg' ? 'http://res.cloudinary.com/dss0tbrcx/image/upload/v1492499879/Eiffel.jpg' : 'http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg'
           t.setAttribute('src',src)
           //updateCode()
         }

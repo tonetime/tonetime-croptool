@@ -1,86 +1,183 @@
-<html lang="eng">
+<html lang="en">
   <head>
+    <!-- Required meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Examples for tonetime-croptool</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js"></script>
-    <script src="drag-resize.js"></script>
     <script src="filters.js"></script>
-    <script src="tonetime-croptool.js"></script>
+    <script src="drag-resize.js"></script>
     <script src="pinch-detect.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="tonetime-croptool.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
     <style>
-     .foo {
-      width:500px;
-      height:500px;
-     }
+    .clip-ellipse {
+      clip-path: ellipse(60px 40px at 75px 30px);
+      /* OLD VALUE example: ellipse(245px, 80px, 75px, 30px); */
+    }
     </style>
   </head>
-  <body>
-    <tonetime-croptool id='pan' background-image='true'  style='display:inline-block;width:400px;height:400px; max-width:100%; background-color: #383030' cropbox-height='80%' cropbox-width='90%' range="true" src='images/cat.jpg' ></tonetime-croptool>   
-    
-        hi<br><br>
-        <!-- style='display:inline-block;width:400px;height:400px; max-width:100%; background-color: #383030' -->
-         <tonetime-croptool id='pan2' background-image='false' cropbox-height='80%' cropbox-width='90%' range="true" src='images/cat.jpg' ></tonetime-croptool>        
-        <br> 
-        <br><br>
- 
-        <a href='#' onclick='foo()'>Insert Another Image</a>
-        <a href='#' onclick='cropImage()'>Show Cropped Image</a>
 
-        <div id="modal" class="modal">
-          <div class="modal-content">
-            <span class="close">&times;</span>
-            <a  id='download' href="" download="cropped">
-              Download
-            </a>
-            <img id='cropped' src='' width=500>
-            <p id='dimensions'></p>
+
+  <body>
+    <h1>&lt;tonetime-croptool&gt;</h1>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>Web component for croping an image. </h4>
+          <ul class="fa-ul">
+            <li><i class="fa-li fa fa-check-square"></i>No dependencies (Polyfill is needed for browsers w/o webcomponent support) </li>
+            <li><i class="fa-li fa fa-check-square"></i>Works on both mobile and web browsers.</li>
+            <li><i class="fa-li fa fa-spinner fa-spin"></i>5k gzipped.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>Installation: </h4>
+            <code>
+              &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js&quot;&gt;&lt;/script&gt; &lt;!-- polyfill for unsupported browsers --&gt;
+              <br>
+              &lt;script src=&quot;dist/tonetime-croptool.js&quot;&gt;&lt;/script&gt;            
+            </code>
+            <p>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>Attributes: </h4>
+          <li><i class="fa-li fa fa-check-square"></i>src: [image source] </li>
+          <li><i class="fa-li fa fa-check-square"></i>range: [true | false]  Show a range slider to zoom in and out. Will never show on mobile devices.</li>
+          <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-width,cropbox-height: [pct] Cropbox provides a background with a rectangluar box to crop the image.  </li>
+          <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-fixed: [true | false]  Do not allow the user to change the height/width of the cropbox. </li>
+          <li><i class="fa-li fa fa-spinner fa-spin"></i>starting-scale: Starting scale value. Default is minimum to fit in container. </li>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <h4>Function: </h4>
+          <li><i class="fa-li fa fa-check-square"></i>drawCroppedImage(): returns the image data for the currently cropped image (in original size)</li>
+        </div>
+      </div>
+      <p>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <h4>Example 1: </h4>
+          <code id='code'>          &lt;tonetime-croptool  id=&#039;ex1&#039; style=&#039;width:350px;height:350px&#039; cropbox-height=&#039;80%&#039; cropbox-width=&#039;90%&#039; range=&quot;true&quot; src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;   
+  </code>
+          <p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+
+        <tonetime-croptool  id='ex1'  style='width:350px;height:350px' cropbox-height='80%' cropbox-width='90%' range="true" src='http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg' ></tonetime-croptool>   
+       </div>
+      </div>
+      <div class="row" style='margin-top:30px'>
+        <div class="col">
+          <a class="btn btn-primary" onclick="updateSrc('ex1'); return false" href="#" role="button">Change Image</a> 
+          <button type="button" onclick='croppedImage("ex1")' class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Save Image
+          </button>
+        </div>
+      </div>
+    </div>
+
+      <div class="container" style='margin-top:30px'>
+        <div class="row">
+          <div class="col">
+            <h4>Example 2: Using with clip-path </h4>
+            <code id='code'>  &lt;tonetime-croptool  id=&#039;ex2&#039; style=&#039;-webkit-clip-path: ellipse(35% 40% at 50% 50%); clip-path: ellipse(35% 40% at 50% 40%); width:350px;height:350px&#039; range=&quot;true&quot; src=&#039;images/archer.jpg&#039; &gt;&lt;/tonetime-croptool&gt; 
+    </code>
+            <p>
           </div>
         </div>
-        <script>
-          window.onclick = function(event) {
-              if (event.target == modal) {
-                  modal.style.display = "none";
-              }
-          }
-          var span = document.getElementsByClassName("close")[0];
-          span.onclick = function() {
-              modal.style.display = "none";
-          }
-          function foo() {
-            var f = document.getElementById('pan')
-            f.insertImage('images/eiffel.jpg')
-          }
-          function cropImage() {
-            var modal = document.getElementById('modal');
-            var f = document.getElementById('pan')
-            var c = document.getElementById('cropped')
-            var cd = pan.croppedDimensions()
-            modal.style.display = "block";
-            var data = f.drawCroppedImage()
-            c.src = data
+        <div class="row">
+          <div class="col">
 
-            document.getElementById("download").href=data;
-            var size = parseFloat(data.length / 1024).toFixed(0) + 'kb'            
-            var str = `x:${cd.dx} y:${cd.dy} width:${cd.dWidth} height:${cd.dHeight} size:${size}`
-            document.getElementById('dimensions').innerHTML=str
-          }
+          <tonetime-croptool  id='ex2'  starting-scale='1.1' style='-webkit-clip-path: ellipse(35% 40% at 50% 50%); clip-path: ellipse(35% 40% at 50% 40%); width:400px;height:350px' range="true" src='http://res.cloudinary.com/dss0tbrcx/image/upload/v1529020006/archer_xcs1k8.jpg' ></tonetime-croptool>   
+         </div>
+        </div>
 
-          document.addEventListener("DOMContentLoaded", function(event) {
-            p = document.getElementById('pan')
-           // p.cropImage()
-          // canvas = document.getElementById('foo')
-          // context = canvas.getContext('2d');
-          i = new Image()
-          i.onload=function() {
-           // p.positionBackgroundImage()
-          }
-          //   context.drawImage(i, 0, 0);
-          // }
-        //  i.src = 'examples/cat.jpg'
-        })
-        </script>
+        <div class="row" style='margin-top:30px'>
+          <div class="col">
+            <a class="btn btn-primary" onclick="updateSrc('ex2'); return false" href="#" role="button">Change Image</a> 
+            <button type="button" onclick='croppedImage("ex2")' class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+              Save Image
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Full Cropped Image</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img id='croppedImage' src='' style='width:100%'>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p><p>
+
+      <script>
+        function croppedImage(id) {
+          var t = document.getElementById(id)
+          document.getElementById("croppedImage").src = t.drawCroppedImage()
+        }
+        function updateCode(id) {
+          var t = document.getElementById(id)
+          var range  = t.getAttribute('range') || 'false'
+          var cropboxFixed  = t.getAttribute('cropbox-fixed') || 'false'
+          var src = t.getAttribute('src') || ''
+          var cropboxHeight = t.getAttribute('cropbox-height') || ''
+          var cropboxWidth = t.getAttribute('cropbox-width') || ''
+          var x = `<tonetime-croptool cropbox-height="${cropboxHeight}"  cropbox-width="${cropboxWidth}"  cropbox-fixed="${cropboxFixed}" range="${range}" src="${t.src}">  </tonetime-croptool>`
+          document.getElementById('code').innerText=x
+        }
+        function updateSrc(id) {
+          var t = document.getElementById(id)
+          var src = t.getAttribute('src')=='http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg' ? 'http://res.cloudinary.com/dss0tbrcx/image/upload/v1492499879/Eiffel.jpg' : 'http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg'
+          t.setAttribute('src',src)
+          //updateCode()
+        }
+      </script>
+
   </body>
 </html>
-
-

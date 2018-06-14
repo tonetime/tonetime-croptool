@@ -56,6 +56,7 @@ class TonetimeCroptool extends HTMLElement {
     this.style.display='inline-block'    
     this.setAttribute('src',src)
     this.clear()
+    this.shadowRoot.getElementById('crop-component-img').crossOrigin = "*";
     this.shadowRoot.getElementById('crop-component-img').onload=function() {  
       var a = getComputedStyle(this)
       var container = this.shadowRoot.getElementById('crop-component-container')

@@ -1,5 +1,6 @@
 //firefox is being a jerk ..  translate is slow when using CSS brightness filter. So do it manually.
 CropComponents={}
+
 CropComponents.brightnessFilter=function(img,pct) {
 	var canvas = document.createElement('canvas');
 	canvas.width = img.width
