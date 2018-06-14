@@ -63,34 +63,87 @@
           <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-fixed: [true | false]  Do not allow the user to change the height/width of the cropbox. </li>
         </div>
       </div>
+      <div class="row">
+        <div class="col">
+          <h4>Function: </h4>
+          <li><i class="fa-li fa fa-check-square"></i>drawCroppedImage(): returns the image data for the currently cropped image (in original size)</li>
+        </div>
+      </div>
       <p>
-
     </div>
-
-
 
     <div class="container">
       <div class="row">
         <div class="col">
-
-       <tonetime-croptool  style='width:350px;height:350px;' cropbox-height='80%' cropbox-width='90%' range="true" src='images/cat.jpg' ></tonetime-croptool>   
-
+          <h4>Example 1: </h4>
+          <code id='code'>  &lt;tonetime-croptool range=&quot;true&quot; src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;   </code>
+          <p>
         </div>
       </div>
       <div class="row">
         <div class="col">
-          Example 1: <p>
-        <code>  &lt;tonetime-croptool range=&quot;true&quot; src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;   </code>
-        <p>
-          <a class="btn btn-primary" href="#" role="button">Save Image</a> <a class="btn btn-primary" href="#" role="button">Change Image</a>
+
+        <tonetime-croptool  id='ex1' style='width:50%;height:350px;'  cropbox-height='80%' cropbox-width='90%' range="true" src='images/cat.jpg' ></tonetime-croptool>   
+       </div>
+      </div>
+      <div class="row" style='margin-top:30px'>
+        <div class="col">
+          <a class="btn btn-primary" onclick="updateSrc('ex1'); return false" href="#" role="button">Change Image</a> 
+          <button type="button" onclick='croppedImage("ex1")' class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Save Image
+          </button>
+        </div>
+      </div>
+    </div>
 
 
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Full Cropped Image</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <img id='croppedImage' src='' style='width:100%'>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+          </div>
         </div>
       </div>
     </div>
 
     <p><p>
 
+      <script>
+        function croppedImage(id) {
+          var t = document.getElementById(id)
+          document.getElementById("croppedImage").src = t.drawCroppedImage()
+        }
+        function updateCode(id) {
+          var t = document.getElementById(id)
+          var range  = t.getAttribute('range') || 'false'
+          var cropboxFixed  = t.getAttribute('cropbox-fixed') || 'false'
+          var src = t.getAttribute('src') || ''
+          var cropboxHeight = t.getAttribute('cropbox-height') || ''
+          var cropboxWidth = t.getAttribute('cropbox-width') || ''
+          var x = `<tonetime-croptool cropbox-height="${cropboxHeight}"  cropbox-width="${cropboxWidth}"  cropbox-fixed="${cropboxFixed}" range="${range}" src="${t.src}">  </tonetime-croptool>`
+          document.getElementById('code').innerText=x
+        }
+        function updateSrc(id) {
+          var t = document.getElementById(id)
+          var src = t.getAttribute('src')=='images/cat.jpg' ? 'images/eiffel.jpg' : 'images/cat.jpg'
+          t.setAttribute('src',src)
+          //updateCode()
+        }
+      </script>
 
   </body>
 </html>

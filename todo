@@ -1,0 +1,15 @@
++ Translate is screwing up on resize.
+
+
+<div id="crop-component-container" style="overflow: hidden; cursor: move; z-index: 10; position: relative; width: 315px; height: 280px; outline: white solid 1px; top: 35px; left: 17.5px;">
+            <img id="crop-component-img" src="images/eiffel.jpg" ondragstart="return false" style="z-index: 1; position: relative; transform: scale(0.291667) translate(-442.5px, -767.5px); transform-origin: 157.5px 140px 0px;">
+          </div>
+
+          <div id="crop-component-container" style="overflow: hidden; cursor: move; z-index: 10; position: relative; width: 315px; height: 280px; outline: white solid 1px; top: 35px; left: 17.5px;">
+                      <img id="crop-component-img" src="images/eiffel.jpg" ondragstart="return false" style="z-index: 1; position: relative; transform: scale(0.291667) translate(-382.5px, -340px); transform-origin: 157.5px 140px 0px;">
+                    </div>
+
+
+
+
+So translate is screwing up.

@@ -10,10 +10,10 @@ class TonetimeCroptool extends HTMLElement {
     this.zoomSlider=null;
     this.defaultZoomSliderSupport=false
     this.cropboxHeight=0,this.cropboxWidth=0
-    this.resizable=false   
     this.useBgImage=false
     this.maxScale = parseFloat(this.getAttribute('maxscale')) || 5.0
     this.isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    this.isLoaded=false
   }
   clear() {    
     if (this.dragAndResize) this.dragAndResize.disconnectEvents()
@@ -32,10 +32,7 @@ class TonetimeCroptool extends HTMLElement {
     this.updateTransform()
     this.zoomSlider.parentElement.style.display='none'
   }
-
   get template() {
-
-
     return `
           <div id ='crop-component-container' style='overflow:hidden;cursor: move; z-index:10; position:relative; ' >
             <img  id ='crop-component-img' src='${this.src}'  ondragstart="return false" style='z-index:1;position:relative; transform:scale(1) translate(0px, 0px);'>
@@ -48,14 +45,13 @@ class TonetimeCroptool extends HTMLElement {
                 <input id = 'crop-component-range' type="range" min=1 max=4  step=0.1  value="1" style='margin-top:5px;width:75%' />
             </div>
           `
-
   }
   connectedCallback() {  	
     let shadowRoot = this.attachShadow({mode: 'open'});
     shadowRoot.innerHTML = this.template;  
     this.insertImage(this.src)
   }
-  insertImage(src) {    
+  insertImage(src,resize) {    
     this.style.display='inline-block'    
     this.setAttribute('src',src)
     this.clear()
@@ -67,8 +63,21 @@ class TonetimeCroptool extends HTMLElement {
       this.initAfterDOM()
       this.shadowDOMRenderedCallback()
       this.imageLoadedCallback()
+      this.isLoaded=true
     }.bind(this)
     this.shadowRoot.getElementById('crop-component-img').src=this.src
+  }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (this.isLoaded) {
+      this.isLoaded=false
+      if (name=='src') {
+        this.insertImage(newValue,true)
+
+      }
+    }
+  }
+  static get observedAttributes() {
+    return ['src', 'range'];
   }
   setZoomSlider() {
   	var r = this.getAttribute('range') 
@@ -166,6 +175,7 @@ class TonetimeCroptool extends HTMLElement {
         this.zoomSlider.parentElement.style.display='none'
     }
     else if (state=='reszieContainer') {
+      if (this.cropboxFixed==true) return
       var outerContainer=this.absoluteRect(this)
       var innerContainer=this.absoluteRect(this.container)
       var bgImage = this.shadowRoot.getElementById('crop-component-bg-image')
@@ -289,6 +299,8 @@ class TonetimeCroptool extends HTMLElement {
     else if (bounds.right > this.currentTx) {
     	this.currentTx=bounds.right
     }
+
+
   }
   minimumScale() {
   	var scaleY = this.offsetHeight / this.img.offsetHeight
@@ -345,8 +357,8 @@ class TonetimeCroptool extends HTMLElement {
   }
   absoluteRect(elem) {
     var rect = elem.getBoundingClientRect()
-    return {top:rect.top, bottom:rect.bottom, right:rect.right,left:rect.left}
-//  	return {top:elem.offsetTop, bottom: elem.offsetHeight + elem.offsetTop, right:elem.offsetLeft+elem.offsetWidth,left:elem.offsetLeft}
+//    return {top:rect.top, bottom:rect.bottom, right:rect.right,left:rect.left}
+  	return {top:elem.offsetTop, bottom: elem.offsetHeight + elem.offsetTop, right:elem.offsetLeft+elem.offsetWidth,left:elem.offsetLeft}
   }
   bounds() {
     var containerRect = this.absoluteRect(this.container)
@@ -364,9 +376,9 @@ class TonetimeCroptool extends HTMLElement {
   }
 
 
-  croppedDimensions() {
-  	var rect = { dx: parseFloat(Math.abs(p.currentTx - Math.round(p.bounds().left))).toFixed(2),
-  			dy: parseFloat(Math.abs((p.currentTy - Math.round(p.bounds().top)))).toFixed(2), 
+  croppedDimensions() {    
+  	var rect = { dx: parseFloat(Math.abs(this.currentTx - Math.round(this.bounds().left))).toFixed(2),
+  			dy: parseFloat(Math.abs((this.currentTy - Math.round(this.bounds().top)))).toFixed(2), 
   			dWidth: parseFloat(this.container.offsetWidth  * (1/this.currentScale)).toFixed(2), 
   			dHeight:parseFloat(this.container.offsetHeight * (1/this.currentScale)).toFixed(2)}
 	 return rect
@@ -386,9 +398,10 @@ class TonetimeCroptool extends HTMLElement {
   get src() {
   	return this.getAttribute('src') 
   }
-  // get useBgImage() {    
-  //   var a = this.getAttribute('background-image')
-  //   return a && a.toLowerCase()!='false'
-  // }
+  get cropboxFixed() {
+    var a = this.getAttribute('cropbox-fixed')
+    return a && a.toLowerCase()!='false'
+
+  }
 }
 window.customElements.define('tonetime-croptool', TonetimeCroptool);
