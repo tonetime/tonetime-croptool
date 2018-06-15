@@ -14,7 +14,7 @@ Add crop tool script and if necessary a polypill for older browsers.
 
 <code>
 &lt;tonetime-croptool  src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;
-</codse>
+</code>
 
 
 
