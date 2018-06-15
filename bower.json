@@ -1,0 +1,21 @@
+{
+  "name": "tonetime-croptool",
+  "description": "Webcomponent for cropping and saving images",
+  "main": "tonetime-croptool.js",
+  "authors": [
+    "TT"
+  ],
+  "license": "Apache",
+  "keywords": [
+    "webcomponent",
+    "crop-image"
+  ],
+  "homepage": "https://github.com/tonetime/tonetime-croptool",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
