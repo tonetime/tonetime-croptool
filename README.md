@@ -4,6 +4,8 @@
 * No dependencies (Polyfill is needed for browsers w/o webcomponent support)
 * Works on both mobile and web browsers.
 * 5k gzipped.
+* [See examples here](https://tonetime.github.io/tonetime-croptool/)
+
 
 # Installation
 
@@ -17,7 +19,6 @@ Add crop tool script and if necessary a polypill for older browsers.
 </code>
 
 
-[See examples here](https://tonetime.github.io/tonetime-croptool/)
 
 
 
