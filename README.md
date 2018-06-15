@@ -10,9 +10,7 @@
 # Installation
 
 Add crop tool script and if necessary a polypill for older browsers.
-<code>
-&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js&quot;&gt;&lt;/script&gt; &lt;!-- polyfill for old browsers --&gt;  <br> &lt;script src=&quot;dist/tonetime-croptool.js&quot;&gt;&lt;/script&gt;
-</code>
+<br />
 
 <code>
 &lt;tonetime-croptool  src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;
