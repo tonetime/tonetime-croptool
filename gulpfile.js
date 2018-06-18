@@ -28,7 +28,7 @@ gulp.task('browser-sync',function() {
 gulp.task('dist', function (cb) {
   pump([
         gulp.src(['./src/**/*.js', '!./src/lib/*']),
-        concat('tonetime-croptool.js'),
+        concat('tonetime-croptool.min.js'),
         uglify(),
         gulp.dest('dist')
     ],

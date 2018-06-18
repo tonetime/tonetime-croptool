@@ -9,17 +9,15 @@
 
     <title>Examples for tonetime-croptool</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js"></script>
-    <script src="dist/tonetime-croptool.js"></script>
+    <script src="dist/tonetime-croptool.min.js"></script>
+
+
+    <!-- bootstrap code -->
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  
-    <style>
-    .clip-ellipse {
-      clip-path: ellipse(60px 40px at 75px 30px);
-      /* OLD VALUE example: ellipse(245px, 80px, 75px, 30px); */
-    }
-    </style>
+
   </head>
 
 
@@ -31,7 +29,8 @@
         <div class="col">
           <h4>Web component for croping an image. </h4>
           <ul class="fa-ul">
-            <li><i class="fa-li fa fa-check-square"></i>No dependencies (Polyfill is needed for browsers w/o webcomponent support) </li>
+            <li><i class="fa-li fa fa-check-square"></i>No dependencies/No frameworks  (Polyfill is needed for browser that are not yet compatible) </li>
+            <li><i class="fa-li fa fa-check-square"></i>Based on Custom Elements V1</li>
             <li><i class="fa-li fa fa-check-square"></i>Works on both mobile and web browsers.</li>
             <li><i class="fa-li fa fa-spinner fa-spin"></i>5k gzipped.</li>
           </ul>
@@ -46,7 +45,7 @@
             <code>
               &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js&quot;&gt;&lt;/script&gt; &lt;!-- polyfill for unsupported browsers --&gt;
               <br>
-              &lt;script src=&quot;dist/tonetime-croptool.js&quot;&gt;&lt;/script&gt;            
+              &lt;script src=&quot;dist/tonetime-croptool.min.js&quot;&gt;&lt;/script&gt;            
             </code>
             <p>
         </div>
@@ -58,7 +57,7 @@
       <div class="row">
         <div class="col">
           <h4>Attributes: </h4>
-          <li><i class="fa-li fa fa-check-square"></i>src: [image source] </li>
+          <li><i class="fa-li fa fa-check-square"></i>src: [image source]  Can dynamically update the image with setAttibute(src,img) </li>
           <li><i class="fa-li fa fa-check-square"></i>range: [true | false]  Show a range slider to zoom in and out. Will never show on mobile devices.</li>
           <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-width,cropbox-height: [pct] Cropbox provides a background with a rectangluar box to crop the image.  </li>
           <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-fixed: [true | false]  Do not allow the user to change the height/width of the cropbox. </li>
@@ -158,21 +157,10 @@
           var t = document.getElementById(id)
           document.getElementById("croppedImage").src = t.drawCroppedImage()
         }
-        function updateCode(id) {
-          var t = document.getElementById(id)
-          var range  = t.getAttribute('range') || 'false'
-          var cropboxFixed  = t.getAttribute('cropbox-fixed') || 'false'
-          var src = t.getAttribute('src') || ''
-          var cropboxHeight = t.getAttribute('cropbox-height') || ''
-          var cropboxWidth = t.getAttribute('cropbox-width') || ''
-          var x = `<tonetime-croptool cropbox-height="${cropboxHeight}"  cropbox-width="${cropboxWidth}"  cropbox-fixed="${cropboxFixed}" range="${range}" src="${t.src}">  </tonetime-croptool>`
-          document.getElementById('code').innerText=x
-        }
         function updateSrc(id) {
           var t = document.getElementById(id)
           var src = t.getAttribute('src')=='http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg' ? 'http://res.cloudinary.com/dss0tbrcx/image/upload/v1492499879/Eiffel.jpg' : 'http://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg'
           t.setAttribute('src',src)
-          //updateCode()
         }
       </script>
 
