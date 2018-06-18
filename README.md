@@ -1,7 +1,7 @@
 # Tonetime-Croptool
 
 * Web component for croping an image.
-* No dependencies (Polyfill is needed for browsers w/o webcomponent support)
+* No dependencies/No Frameworks (Polyfill is needed for browsers w/o webcomponent support)
 * Works on both mobile and web browsers.
 * 5k gzipped.
 * [See examples here](https://tonetime.github.io/tonetime-croptool/)
