@@ -9,7 +9,7 @@
 
 # Installation
 
-Add crop tool script and if necessary a polypill for older browsers.
+Add crop tool script and if necessary a polyfill for older browsers.
 <br />
 
 
