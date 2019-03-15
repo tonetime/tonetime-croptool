@@ -26,58 +26,8 @@
     <div class="container">
       <div class="row">
         <div class="col">
-          <h4>Web component for croping an image. </h4>
-          <ul class="fa-ul">
-            <li><i class="fa-li fa fa-check-square"></i>No dependencies (Polyfill is needed for browsers w/o webcomponent support) </li>
-            <li><i class="fa-li fa fa-check-square"></i>Works on both mobile and web browsers.</li>
-            <li><i class="fa-li fa fa-spinner fa-spin"></i>5k gzipped.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h4>Installation: </h4>
-            <code>
-              &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/webcomponentsjs/1.2.0/webcomponents-lite.js&quot;&gt;&lt;/script&gt; &lt;!-- polyfill for unsupported browsers --&gt;
-              <br>
-              &lt;script src=&quot;dist/tonetime-croptool.js&quot;&gt;&lt;/script&gt;            
-            </code>
-            <p>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h4>Attributes: </h4>
-          <li><i class="fa-li fa fa-check-square"></i>src: [image source] </li>
-          <li><i class="fa-li fa fa-check-square"></i>range: [true | false]  Show a range slider to zoom in and out. Will never show on mobile devices.</li>
-          <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-width,cropbox-height: [pct] Cropbox provides a background with a rectangluar box to crop the image.  </li>
-          <li><i class="fa-li fa fa-spinner fa-spin"></i>cropbox-fixed: [true | false]  Do not allow the user to change the height/width of the cropbox. </li>
-          <li><i class="fa-li fa fa-spinner fa-spin"></i>starting-scale: Starting scale value. Default is minimum to fit in container. </li>
-          <li><i class="fa-li fa fa-spinner fa-spin"></i>accept-drop: [true | false] Accept images dragged into the component. Web browser only. <a href='drag.html'> Click for example </a> </li>
-
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <h4>Function: </h4>
-          <li><i class="fa-li fa fa-check-square"></i>drawCroppedImage(): returns the image data for the currently cropped image (in original size)</li>
-        </div>
-      </div>
-      <p>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col">
-          <h4>Example 1: </h4>
-          <code id='code'>          &lt;tonetime-croptool  id=&#039;ex1&#039; style=&#039;width:350px;height:350px&#039; cropbox-height=&#039;80%&#039; cropbox-width=&#039;90%&#039; range=&quot;true&quot; src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;   
+          <h4>Example With Accept-Drop (Web browsers only) </h4>
+          <code id='code'>          &lt;tonetime-croptool  id=&#039;ex1&#039; accept-drop=&#039;true&#039; style=&#039;width:350px;height:350px&#039; cropbox-height=&#039;80%&#039; cropbox-width=&#039;90%&#039; range=&quot;true&quot; src=&#039;images/cat.jpg&#039; &gt;&lt;/tonetime-croptool&gt;   
   </code>
           <p>
         </div>
@@ -85,7 +35,7 @@
       <div class="row">
         <div class="col">
 
-        <tonetime-croptool  id='ex1'  style='width:350px;height:350px' cropbox-height='80%' cropbox-width='90%' range="true" src='https://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg' ></tonetime-croptool>   
+        <tonetime-croptool  id='ex1'  style='width:350px;height:350px'  accept-drop='true' cropbox-height='80%' cropbox-width='90%' range="true" src='https://res.cloudinary.com/dss0tbrcx/image/upload/v1526460922/jbjzpro5coe3qsorhcg1.jpg' ></tonetime-croptool>   
        </div>
       </div>
       <div class="row" style='margin-top:30px'>
@@ -98,32 +48,22 @@
       </div>
     </div>
 
-      <div class="container" style='margin-top:30px'>
-        <div class="row">
-          <div class="col">
-            <h4>Example 2: Using with clip-path </h4>
-            <code id='code'>  &lt;tonetime-croptool  id=&#039;ex2&#039; style=&#039;-webkit-clip-path: ellipse(35% 40% at 50% 50%); clip-path: ellipse(35% 40% at 50% 40%); width:350px;height:350px&#039; range=&quot;true&quot; src=&#039;images/archer.jpg&#039; &gt;&lt;/tonetime-croptool&gt; 
-    </code>
-            <p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col">
 
-          <tonetime-croptool  id='ex2'  starting-scale='1.1' style='-webkit-clip-path: ellipse(35% 40% at 50% 50%); clip-path: ellipse(35% 40% at 50% 40%); width:400px;height:350px' range="true" src='https://res.cloudinary.com/dss0tbrcx/image/upload/v1529020006/archer_xcs1k8.jpg' ></tonetime-croptool>   
-         </div>
-        </div>
 
-        <div class="row" style='margin-top:30px'>
+
+      <div class='container'>
+        <div class="row"  style='margin-top:30px'>
           <div class="col">
-            <a class="btn btn-primary" onclick="updateSrc('ex2'); return false" href="#" role="button">Change Image</a> 
-            <button type="button" onclick='croppedImage("ex2")' class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-              Save Image
-            </button>
+            <h4>Drag Test (Drag Archer to component): </h4>
+            <img draggable="true" id='img1' ondragstart="dragstart_handler(event);" width=300 src="https://res.cloudinary.com/dss0tbrcx/image/upload/v1529020006/archer_xcs1k8.jpg">
+            <script>  
+              function dragstart_handler(e) {                
+                e.dataTransfer.setData("text", e.target.src);
+              }
+            </script>
           </div>
         </div>
       </div>
-
 
 
 

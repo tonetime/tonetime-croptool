@@ -15,6 +15,31 @@ class TonetimeCroptool extends HTMLElement {
     this.maxScale = parseFloat(this.getAttribute('maxscale')) || 5.0
     this.isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     this.isLoaded=false
+
+
+    this.acceptDrop = this.getAttribute('accept-drop') === 'true' && (!this.supportsTouch)
+    if (this.acceptDrop) {
+      this.shadowRoot.addEventListener("dragleave", function(e) {
+         this.style.outline=''
+      }.bind(this))
+      this.shadowRoot.addEventListener("dragover", function(e) {
+        this.style.outline='2px dotted black'
+        e.preventDefault();
+      }.bind(this));
+      this.shadowRoot.addEventListener('drop',function(e) {
+        e.preventDefault();
+        this.style.outline=''
+        var imgSrc = e.dataTransfer.getData("text");
+        if (imgSrc && imgSrc.toLowerCase().startsWith("http")) {
+          this.setAttribute('src',imgSrc)
+        }
+        else {
+          console.log('Incorrect value for drag object.  Should be a url');
+        }
+       }.bind(this))
+    }
+
+
   }
   clear() {    
     if (this.dragAndResize) this.dragAndResize.disconnectEvents()
