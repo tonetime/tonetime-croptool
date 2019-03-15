@@ -27,6 +27,7 @@ Add crop tool script and if necessary a polyfill for older browsers.
 + cropbox-width,cropbox-height: [pct] Cropbox provides a background with a rectangluar box to crop the image
 + cropbox-fixed: [true | false]  Do not allow the user to change the height/width of the cropbox.
 + starting-scale: Starting scale value. Default is minimum to fit in container..
++ accept-drop: [true | false] Accept images dragged into the component. Web browser only. 
 
 # Function
 + drawCroppedImage(): returns the image data for the currently cropped image (in original size)
